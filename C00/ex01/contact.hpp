@@ -11,16 +11,16 @@ private:
     std::string phoneNumber;
     std::string darkestSecret;
 public:
-    void setFirstName(const std::string &fn) { firstName = fn; }
-    void setLastName(const std::string &ln) { lastName = ln; }
-    void setNickname(const std::string &nn) { nickname = nn; }
-    void setPhoneNumber(const std::string &pn) { phoneNumber = pn; }
-    void setDarkestSecret(const std::string &ds) { darkestSecret = ds; }
-    std::string getFirstName() const { return firstName; }
-    std::string getLastName() const { return lastName; }
-    std::string getNickname() const { return nickname; }
-    std::string getPhoneNumber() const { return phoneNumber; }
-    std::string getDarkestSecret() const { return darkestSecret; }
+    void setFirstName(const std::string &fn);
+    void setLastName(const std::string &ln);
+    void setNickname(const std::string &nn);
+    void setPhoneNumber(const std::string &pn);
+    void setDarkestSecret(const std::string &ds);
+    std::string getFirstName() const;
+    std::string getLastName() const;
+    std::string getNickname() const;
+    std::string getPhoneNumber() const;
+    std::string getDarkestSecret() const;
 };
 
 #endif

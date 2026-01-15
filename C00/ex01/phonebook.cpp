@@ -1,12 +1,5 @@
 #include "phonebook.hpp"
 
-std::string truncate(const std::string &str)
-{
-    if (str.length() > 10)
-        return str.substr(0, 9) + ".";
-    return str;
-}
-
 void AddContact(PhoneBook &phonebook)
 {
     Contact newContact;
