@@ -7,7 +7,7 @@ std::string truncate(const std::string &str)
     return str;
 }
 
-void PhoneBook::searchContacts(PhoneBook &phonebook)
+bool PhoneBook::searchContacts(PhoneBook &phonebook)
 {
     std::cout << " -------------------------------------------" << std::endl;
     std::cout << "|     Index|First Name| Last Name|Nickname  |" << std::endl;
@@ -25,13 +25,19 @@ void PhoneBook::searchContacts(PhoneBook &phonebook)
 
     std::cout << "Enter the index of the contact to display: ";
     int index;
-    
+
+
     if (!(std::cin >> index))
     {
+        if (std::cin.eof() == true)
+        {
+            std::cout << "\nEnd of input detected. Exiting the program." << std::endl;
+            return false;
+        }
         std::cout << "Invalid input: Please enter a numeric value." << std::endl;
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return;
+        return true;
     }
 
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -39,7 +45,7 @@ void PhoneBook::searchContacts(PhoneBook &phonebook)
     if (index < 1 || index > maxContacts || phonebook.contacts[index - 1].getFirstName().empty())
     {
         std::cout << "Error: Contact index out of range or contact is empty." << std::endl;
-        return;
+        return true;
     }
 
     const Contact &contact = phonebook.contacts[index - 1];
@@ -48,4 +54,5 @@ void PhoneBook::searchContacts(PhoneBook &phonebook)
     std::cout << "Nickname: " << contact.getNickname() << std::endl;
     std::cout << "Phone Number: " << contact.getPhoneNumber() << std::endl;
     std::cout << "Darkest Secret: " << contact.getDarkestSecret() << std::endl;
+    return true;
 }

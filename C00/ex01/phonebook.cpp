@@ -1,51 +1,40 @@
 #include "phonebook.hpp"
 
-void AddContact(PhoneBook &phonebook)
-{
-    Contact newContact;
-    std::string input;
-
-    do
-    {
-        std::cout << "Enter First Name: ";
-        std::getline(std::cin, input);
-    } while (input.empty());
-    newContact.setFirstName(input);
-
-    do
-    {
-        std::cout << "Enter Last Name: ";
-        std::getline(std::cin, input);
-    } while (input.empty());
-    newContact.setLastName(input);
-
-    do
-    {
-        std::cout << "Enter Nickname: ";
-        std::getline(std::cin, input);
-    } while (input.empty());
-    newContact.setNickname(input);
-
-    do
-    {
-        std::cout << "Enter Phone Number: ";
-        std::getline(std::cin, input);
-    } while (input.empty());
-    newContact.setPhoneNumber(input);
-
-    do
-    {
-        std::cout << "Enter Darkest Secret: ";
-        std::getline(std::cin, input);
-    } while (input.empty());
-    newContact.setDarkestSecret(input);
-
-    phonebook.addContact(newContact);
+bool GetInput(const std::string& prompt, std::string &input) {
+    while (true) {
+        std::cout << prompt;
+        if (!std::getline(std::cin, input)) {
+            std::cout << "\nEnd of input detected. Exiting the program." << std::endl;
+            return false;
+        }
+        if (!input.empty()) {
+            return true;
+        }
+    }
 }
 
-void SearchContacts(PhoneBook &phonebook)
+bool AddContact(PhoneBook &phonebook) {
+    Contact newContact;
+    std::string input;
+    if (!GetInput("Enter First Name: ", input)) return false;
+    newContact.setFirstName(input);
+    if (!GetInput("Enter Last Name: ", input)) return false;
+    newContact.setLastName(input);
+    if (!GetInput("Enter Nickname: ", input)) return false;
+    newContact.setNickname(input);
+    if (!GetInput("Enter Phone Number: ", input)) return false;
+    newContact.setPhoneNumber(input);
+    if (!GetInput("Enter Darkest Secret: ", input)) return false;
+    newContact.setDarkestSecret(input);
+    phonebook.addContact(newContact);
+    return true;
+}
+
+bool SearchContacts(PhoneBook &phonebook)
 {
-    phonebook.searchContacts(phonebook);
+    if (!phonebook.searchContacts(phonebook))
+        return false;
+    return true;
 }
 
 int main(void)
@@ -58,20 +47,28 @@ int main(void)
         std::cout << "Enter a command (ADD, SEARCH, EXIT): ";
         std::getline(std::cin, command);
 
+        if (!std::cin)
+        {
+            std::cout << "\nEnd of input detected. Exiting the program." << std::endl;
+            break;
+        }
+
         if (command == "ADD")
         {
             std::cout << "Adding a new contact..." << std::endl;
-            AddContact(phonebook);
+            if (!AddContact(phonebook))
+                return 1;
         }
         else if (command == "SEARCH")
         {
             std::cout << "Searching contacts..." << std::endl;
-            SearchContacts(phonebook);
+            if (!SearchContacts(phonebook))
+                return 1;
         }
         else if (command == "EXIT")
         {
             std::cout << "Exiting the program." << std::endl;
-            break;
+            return 0;
         }
         else
         {

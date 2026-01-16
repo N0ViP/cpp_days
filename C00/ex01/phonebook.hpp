@@ -15,7 +15,7 @@ private:
 public:
     PhoneBook() : contactCount(0) {}
     void addContact(const Contact &contact);
-    void searchContacts(PhoneBook &phonebook);
+    bool searchContacts(PhoneBook &phonebook);
 
 };
 
