@@ -4,25 +4,18 @@
 int main(void)
 {
 
-		Bureaucrat bureau1;
-		Bureaucrat bureau2(bureau1);
-		Bureaucrat bureau3;
-		Bureaucrat::GradeTooHighException exctoohigh;
-		Bureaucrat::GradeTooLowException exctoolow;
-		
-		bureau1.setName("eve");
-		bureau1.setGrade(5);
-
-		bureau2.setGrade(145);
-		
-		bureau3 = bureau1;
-
+		Bureaucrat bureau1("Eve");
+		Bureaucrat bureau2("Adam");
+		Bureaucrat bureau3(bureau1);
+		Bureaucrat bureau4;
 
 		std::cout << "=========================================" << std::endl;
 		
 		std::cout << bureau1;
 		std::cout << bureau2;
 		std::cout << bureau3;
+		std::cout << bureau4;
+
 
 		std::cout << "=========================================" << std::endl;
 

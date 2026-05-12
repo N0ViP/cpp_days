@@ -1,4 +1,4 @@
-SRC	= main.cpp Bureaucrat.cpp Form.cpp
+SRC	= main.cpp Bureaucrat.cpp # Form.cpp
 OBJ	= $(SRC:.cpp=.o)
 CXX	= c++
 CFLAGS	= -Wall -Wextra -Werror -std=c++98
