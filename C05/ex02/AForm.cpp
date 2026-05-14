@@ -1,4 +1,4 @@
-#include "Form.hpp"
+#include "AForm.hpp"
 #include <iostream>
 
 AForm::AForm() : name("form"), sign(false), gradeToSign(75), gradeToExecute(75) {}
