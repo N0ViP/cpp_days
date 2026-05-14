@@ -11,9 +11,9 @@ Bureaucrat::Bureaucrat(const std::string s, const short int g): name(s), grade(g
 		throw Bureaucrat::GradeTooLowException();
 }
 
-Bureaucrat::Bureaucrat(Bureaucrat &val): name(val.name), grade(val.grade) {}
+Bureaucrat::Bureaucrat(const Bureaucrat &val): name(val.name), grade(val.grade) {}
 
-Bureaucrat& Bureaucrat::operator=(Bureaucrat &val)
+Bureaucrat& Bureaucrat::operator=(const Bureaucrat &val)
 {
 	if (&val != this)
 	{
@@ -25,8 +25,35 @@ Bureaucrat& Bureaucrat::operator=(Bureaucrat &val)
 
 Bureaucrat::~Bureaucrat() {}
 
-std::string Bureaucrat::getName() { return name; }
-short int	Bureaucrat::getGrade() { return grade; }
+const std::string Bureaucrat::getName() const { return name; }
+short int Bureaucrat::getGrade() const { return grade; }
+
+void Bureaucrat::signForm(AForm& cls)
+{
+	try
+	{
+		cls.beSigned(*this);
+		std::cout << name << " signed " << cls.getName() << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cerr << name << " couldn't sign " << cls.getName() << " because " << e.what() << std::endl;
+	}
+}
+
+void Bureaucrat::executeForm(const AForm& cls) const
+{
+	try
+	{
+		cls.execute(*this);
+		std::cout << name << " executed " << cls.getName() << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cerr << name << " couldn't execute " << cls.getName() << " because " << e.what() << std::endl;
+	}
+}
+
 
 void	Bureaucrat::gradeIncrement()
 {
@@ -38,7 +65,7 @@ void	Bureaucrat::gradeDecrement()
 	(grade < 150) ? grade++ : throw GradeTooLowException();
 }
 
-std::ostream& operator<<(std::ostream& out, Bureaucrat& cls)
+std::ostream& operator<<(std::ostream& out, const Bureaucrat& cls)
 {
 	out << cls.getName()
 		<< ", bureaucrat grade "

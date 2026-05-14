@@ -26,7 +26,8 @@ class Bureaucrat
 		void	gradeIncrement();
 		void	gradeDecrement();
 		
-		void	signForm(class Form& cls);
+		void	signForm(class AForm& cls);
+		void	executeForm(const class AForm& cls) const;
 
 
 		// exceptions

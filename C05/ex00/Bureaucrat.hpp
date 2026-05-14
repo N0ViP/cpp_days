@@ -9,9 +9,10 @@ class Bureaucrat
 	private:
 		const std::string	name;
 		short int	grade;
+
 	public:
 		Bureaucrat();
-		Bureaucrat(const std::string s);
+		Bureaucrat(const std::string s, const short int g);
 		Bureaucrat(Bureaucrat &val);
 		Bureaucrat& operator=(Bureaucrat &val);
 		~Bureaucrat();
@@ -28,14 +29,14 @@ class Bureaucrat
 		// exceptions
 		class GradeTooHighException: public std::exception
 		{
-				public:
-						const char* what() const throw();
+			public:
+				const char* what() const throw();
 		};
 
 		class GradeTooLowException: public std::exception
 		{
-				public:
-						const char* what() const throw();
+			public:
+				const char* what() const throw();
 		};
 };
 
