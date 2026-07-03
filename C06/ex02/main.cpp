@@ -18,4 +18,7 @@ int main()
     identify(b2);
     std::cout << "identify b2 type by reference : ";
     identify(*b2);
+
+    delete b1;
+    delete b2;
 }

@@ -1,10 +1,10 @@
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 #include <cfloat>
 #include <climits>
 #include <sstream>
-#include <cmath>
 #include <cctype>
 
 class ScalarConverter
@@ -16,11 +16,13 @@ class ScalarConverter
         static void    convert_to_float(long double &res, std::string &str);
         static void    convert_to_double(long double &res, std::string &str);
         static void    convert_number(long double &res, std::string &str);
-    public:
-        static void    convert(std::string &str);
 
         ScalarConverter();
         ScalarConverter(const ScalarConverter &other);
         ScalarConverter& operator=(const ScalarConverter &other);
         ~ScalarConverter();
+
+    public:
+        static void    convert(std::string &str);
+
 };

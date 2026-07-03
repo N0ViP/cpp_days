@@ -12,4 +12,13 @@ int main()
 
     Data *data_add = Serializer::deserialize(ptr);
     std::cout << "data_add = " << data_add << std::endl;
+
+    if (ptr == reinterpret_cast<uintptr_t>(data_add))
+    {
+        std::cout << "The pointer is the same." << std::endl;
+    }
+    else
+    {
+        std::cout << "The pointer is different." << std::endl;
+    }
 }

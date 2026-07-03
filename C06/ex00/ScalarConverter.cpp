@@ -22,8 +22,8 @@ void    ScalarConverter::convert_char(char c)
         std::cout << "'" << c << "'" << std::endl;
     }
     std::cout << "int: " << static_cast<int>(c) << std::endl;
-    std::cout << "float: " << static_cast<float>(c) << ".0f" << std::endl;
-    std::cout << "double: " << static_cast<double>(c) << ".0" << std::endl;
+    std::cout << "float: " << static_cast<float>(c) << "f" << std::endl;
+    std::cout << "double: " << static_cast<double>(c) << std::endl;
 }
 
 void    ScalarConverter::convert_to_char(long double &res)
@@ -64,10 +64,7 @@ void    ScalarConverter::convert_to_float(long double &res, std::string &str)
     std::cout << "float: ";
     if (res <= FLT_MAX && res >= -FLT_MAX)
     {
-        if (res == std::floor(res))
-            std::cout << static_cast<float>(res) << ".0f" << std::endl;
-        else
-            std::cout << static_cast<float>(res) << "f" << std::endl;
+        std::cout << static_cast<float>(res) << "f" << std::endl;
     }
     else if (str == "+inff" || str == "-inff" || str == "nanf")
     {
@@ -88,10 +85,7 @@ void    ScalarConverter::convert_to_double(long double &res, std::string &str)
     std::cout << "double: ";
     if (res <= DBL_MAX && res >= -DBL_MAX)
     {
-        if (res == std::floor(res))
-            std::cout << static_cast<double>(res) << ".0" << std::endl;
-        else
-            std::cout << static_cast<double>(res) << std::endl;
+        std::cout << static_cast<double>(res) << std::endl;
     }
     else if (str == "+inf" || str == "-inf" || str == "nan")
     {
@@ -110,6 +104,7 @@ void    ScalarConverter::convert_to_double(long double &res, std::string &str)
 
 void    ScalarConverter::convert_number(long double &res, std::string &str)
 {
+
     convert_to_char(res);
     
     convert_to_int(res);
@@ -124,16 +119,25 @@ void    ScalarConverter::convert(std::string &str)
 {
     long double         res;
     std::istringstream  iss(str);
+    std::string         tmp;
 
+
+    std::cout << std::fixed << std::setprecision(1);
 
     if (str.length() == 1 && !std::isdigit(str[0]))
     {
         convert_char(str[0]);
         return ;
     }
-
+    
     iss >> res;
+    
     if (iss.fail())
+    {
+        res = LDBL_MAX;
+    }
+    iss >> tmp;
+    if (!iss.fail() && tmp != "f")
     {
         res = LDBL_MAX;
     }
