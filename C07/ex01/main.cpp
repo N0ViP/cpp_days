@@ -1,16 +1,17 @@
 #include "iter.hpp"
 
-void	factor(int &var)
+int	factor(int &var)
 {
-	var *= 10;
+	return (var *= 10);
 }
 
-void	upper(char &var)
+int	upper(char &var)
 {
 	if (var >= 'a' && var <= 'z')
 	{
 		var -= 32;
 	}
+	return (var);
 	
 }
 
@@ -19,7 +20,7 @@ int main()
 	const int arr_size = 10;
 	int arr[arr_size] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-	iter<int, int, void(*)(int&)>(arr, arr_size, factor);
+	iter<int, int, int(*)(int&)>(arr, arr_size, factor);
 
 	for (int i = 0; i < arr_size; i++)
 	{
@@ -34,7 +35,7 @@ int main()
 
 	std::cout << "before: " << word << std::endl;
 
-	iter<char, int, void(*)(char&)>(word, word_size, upper);
+	iter<char, int, int(*)(char&)>(word, word_size, upper);
 
 	std::cout << "after: " << word << std::endl;
 
