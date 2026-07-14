@@ -1,10 +1,10 @@
 CXX			=	c++
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
-SRC			=	main.cpp
+SRC			=	Span.cpp  main.cpp
 OBJ			=	$(SRC:.cpp=.o)
 
-NAME		=	easyfind
+NAME		=	Span
 
 
 all : $(NAME)
