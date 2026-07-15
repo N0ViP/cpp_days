@@ -24,11 +24,21 @@ Span& Span::operator=(const class Span& other)
 
 void	Span::addNumber(int NewMember)
 {
-	if (arr.capacity() == arr.size())
+	if (N < arr.size() + 1)
 	{
 		throw std::out_of_range("you've reached the max of elements");
 	}
 	arr.push_back(NewMember);
+}
+
+void	Span::addMultiNumbers(std::vector<int>::iterator b, std::vector<int>::iterator e)
+{
+	if (arr.size() + (e - b) > N)
+	{
+		throw std::out_of_range("you've reached the max of elements");
+	}
+
+	arr.insert(arr.end(), b, e);
 }
 
 int		Span::shortestSpan()

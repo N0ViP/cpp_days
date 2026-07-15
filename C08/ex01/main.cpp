@@ -1,33 +1,42 @@
 #include "Span.hpp"
 #include <ctime>
 #include <cstdlib>
-/*
-#define MAX_VAL	10000
+
+#define MAX_SIZE	10000
 
 int main()
 {
 	std::srand(static_cast<unsigned int>(std::time(0)));
 
-	Span				arr(MAX_VAL);
+	Span				arr(MAX_SIZE);
+	std::vector<int>	vec(MAX_SIZE - 1);
 
 
+	for (int i = 0; i < MAX_SIZE - 1; i++)
+	{
+		vec[i] = rand() % 10000000;
+	}
+	arr.addMultiNumbers(vec.begin(), vec.end());
+	try
+	{
+		arr.addNumber(-1337);
+	}
+	catch (std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	try
+	{
+		arr.addNumber(-1337);
+	}
+	catch (std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 
-	return 0;
-}*/
-
-
-
-int main()
-{
-	Span sp = Span(5);
-	sp.addNumber(6);
-	sp.addNumber(3);
-	sp.addNumber(17);
-	sp.addNumber(9);
-	sp.addNumber(11);
-
-	std::cout << sp.shortestSpan() << std::endl;
-	std::cout << sp.longestSpan() << std::endl;
+	std::cout << "shorest span : " << arr.shortestSpan() << std::endl;
+	std::cout << "longest span : " << arr.longestSpan() << std::endl;
 
 	return 0;
 }
+

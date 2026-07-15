@@ -20,6 +20,7 @@ class Span
 		Span& operator=(const class Span& other);
 
 		void	addNumber(int NewMember);
+		void	addMultiNumbers(std::vector<int>::iterator a, std::vector<int>::iterator b);
 		int		shortestSpan();
 		int		longestSpan() const;
 };
