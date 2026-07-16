@@ -1,36 +1,69 @@
 #include "MutantStack.hpp"
 
-int main(void)
+
+int main()
 {
-	MutantStack<int> mystack;
+    MutantStack<int> mstack;
 
-	if (mystack.empty())
-	{
-		std::cout << "stack is empty\n";
-	}
-	else
-	{
-		std::cout << "stack isnt empty\n";
-	}
+    mstack.push(1337);
+    mstack.push(-1337);
+    mstack.push(42);
+    mstack.push(-42);
+    
+    mstack.pop();
 
-	mystack.push(1337);
-	mystack.push(42);
-	
-	std::stack<int> s(mystack);
-	std::cout << s.top() << std::endl;
+    std::cout << "top element: " << mstack.top() << std::endl;
 
-	std::cout << mystack.top() << std::endl;
-	mystack.top() = -1337;
-	std::cout << mystack.top() << std::endl;
-	mystack.pop();
+    if (mstack.empty())
+    {
+        std::cout << "stack is empty" << std::endl;
+    }
+    else
+    {
+        std::cout << "stack is not empty" << std::endl;
+    }
 
-	if (mystack.empty())
-	{
-		std::cout << "stack is empty\n";
-	}
-	else
-	{
-		std::cout << "stack isnt empty\n";
-	}
-	
+    MutantStack<int>::iterator it = mstack.begin();
+    MutantStack<int>::iterator ite = mstack.end();
+
+    std::cout << "stack elements: ";
+    for (; it != ite; ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    MutantStack<int> mstack2(mstack);
+    MutantStack<int> mstack3;
+    if (mstack3.empty())
+    {
+        std::cout << "stack 3 is empty" << std::endl;
+    }
+    else
+    {
+        std::cout << "stack 3 is not empty" << std::endl;
+    }
+
+    mstack3 = mstack2;
+    if (mstack3.empty())
+    {
+        std::cout << "stack 3 is empty" << std::endl;
+    }
+    else
+    {
+        std::cout << "stack 3 is not empty" << std::endl;
+    }
+
+    mstack3.push(21);
+    mstack3.push(-21);
+    
+    MutantStack<int>::reverse_iterator rit = mstack3.rbegin();
+    MutantStack<int>::reverse_iterator rite = mstack3.rend();
+
+    std::cout << "stack 3 elements in reverse order: ";
+    for (; rit != rite; ++rit)
+    {
+        std::cout << *rit << " ";
+    }
+    std::cout << std::endl;
 }
