@@ -1,15 +1,43 @@
 #include "BitcoinExchange.hpp"
 
-#ifndef DB
-# define DB "data.csv"
-#endif
 
-typedef struct s_date
+
+bool	ParseFile(std::ifstream file, std::map<t_date, int>& db_map)
 {
-	int year;
-	int month;
-	int day;
-}	t_date;
+	std::string line;
+	
+	if (std::getline(file, line))
+	{
+		std::cerr << "Error: getline can't read the file" << std::endl;
+		return false;
+	}
+
+	{
+		std::string HeaderColm1, HeaderColm2;
+		char sep;
+		std::stringstream ss(line);
+		ss >> HeaderColm1 >> sep >> HeaderColm2;
+		if (HeaderColm1 != "date" || sep != '|' || HeaderColm2 != "value")
+		{
+			std::cerr << "Error: invalid inputs" << std::endl;
+			return false;	
+		}
+	}
+
+	while (std::getline(file, line))
+	{
+		std::stringstream ss(line);
+		t_date date;
+		float value;
+		char seps[3] = 0;
+		ss >> date.year >> seps[0] >> date.month >> seps[1] >> date.day >> seps[2] >> value;
+		if (!checkInputs(date, seps, value))
+			continue;
+		PrintValue(db_map, date, value);
+	}
+
+	return true;
+}
 
 int main(int ac, char *av[])
 {
@@ -28,10 +56,13 @@ int main(int ac, char *av[])
 	{
 		idb.close();
 		ifile.close();
+		return 1;
 	}
 
-	fill_container(idb_map, idb);
-	fill_container(ifile_mp, ifile);
+	if (!ParseFile(idb_map, idb_map, DB_HEADER_ROW) || !ParseFile(ifile_mp, ifile, FILE_HEADER_ROW))
+	{
+		return 2;
+	}
 
 	return 0;
 }
