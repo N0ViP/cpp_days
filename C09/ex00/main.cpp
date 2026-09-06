@@ -85,6 +85,30 @@ bool	ParseFile(std::ifstream file, std::map<Date, float>& db_map)
 	return true;
 }
 
+bool	fillDbMap(std::ifstream& db, std::map<Date, float>& db_map)
+{
+	std::string line;
+
+	if (std::getline(db, line))
+	{
+		std::cerr << "Error: getline can't read the database" << std::endl;
+		return false;
+	}
+
+	while (std::getline(db, line))
+	{
+		std::stringstream ss(line);
+		char	sep;
+		Date	date;
+		float	value;
+
+		ss >> date.year >> sep >> date.month >> sep >> date.day >> sep >> value;
+		db_map.insert(std::pair<Date, float>(date, value));
+	}
+
+	return true;
+}
+
 int main(int ac, char *av[])
 {
 	if (ac != 2)
@@ -105,7 +129,8 @@ int main(int ac, char *av[])
 		return 1;
 	}
 
-	fillDbMap(idb, idb_map);
+	if (!fillDbMap(idb, idb_map))
+		return 1;
 
 	return 0;
 }

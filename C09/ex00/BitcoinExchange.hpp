@@ -3,10 +3,6 @@
 #include <iostream>
 #include <map>
 
-#ifndef DB_HEADER_ROW
-#define DB_HEADER_ROW "date,exchange_rate"
-#endif
-
 #ifndef FILE_HEADER_ROW
 #define FILE_HEADER_ROW "date | value"
 #endif

@@ -7,7 +7,7 @@ bool	Date::operator<(const Date& other) const
 	if (year != other.year)
 		return year < other.year;
 
-	if (month != second.month)
+	if (month != other.month)
 		return month < other.month;
 
 	return day < other.day;
@@ -25,7 +25,7 @@ Date	Date::abs(void) const
 	if (res.year < 0)
 		res.year = -(res.year);
 	if (res.month < 0)
-		res.month = -(res.mont);
+		res.month = -(res.month);
 	if (res.day < 0)
 		res.day = -(res.day);
 
@@ -38,7 +38,7 @@ bool Date::checkDate(void) const
 	char DaysOfMonths[] = {31, 28, 31, 30, 31, 30, 31,31, 30, 31, 30, 31};
 	bool isLeapYear;
 
-	isLeapYear = ((date.year % 4 == 0) && (date.year % 100 != 0)) || (date.year % 400 == 0);
+	isLeapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 	DaysOfMonths[1] += isLeapYear;
 
 	if (year < 0 || !(month >= 1 && month <= 12) || DaysOfMonths[month - 1] >= day)
