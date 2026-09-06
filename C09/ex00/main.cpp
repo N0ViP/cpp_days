@@ -1,8 +1,57 @@
 #include "BitcoinExchange.hpp"
 
+bool checkDate(t_date& date)
+{
+	char DaysOfMonths[] = {31, 28, 31, 30, 31, 30, 31,31, 30, 31, 30, 31};
+	bool isLeapYear;
+
+	isLeapYear = ((date.year % 4 == 0) && (date.year % 100 != 0)) || (date.year % 400 == 0);
+	DaysOfMonths[1] += isLeapYear;
+
+	if (date.year < 0
+		|| !(date.month >= 1 && date.month <= 12)
+		|| DaysOfMonths[date.month - 1] >= date.day)
+	{
+		std::cerr << "Error: invalid date" << std::endl;
+		return false;
+	}
+
+	return true;
+}
+
+bool	checkInputs(t_date& date, char[3] seps, float& value)
+{
+	if (!checkDate(date))
+		return false;
+	if (seps[0] != '-' || seps[1] != '-' || seps[2] != '|')
+	{
+		std::cerr << "Error: invalid separator" << std::endl;
+		return false;
+	}
+	if (value < 0)
+	{
+		std::cerr << "Error: not a positive number" << std::endl;
+		return false;
+	}
+	else if (value > INT_MAX)
+	{
+		std::cerr << "Error: too large a number" << std::endl;
+		return false;
+	}
+	return true;
+}
 
 
-bool	ParseFile(std::ifstream file, std::map<t_date, int>& db_map)
+void	PrintValue(std::map<t_date, float>& db_map, t_date& date, float& value)
+{
+	std::cout << date.year << '-' << date.month << '-' << date.day
+				<< " => " << value << " = ";
+	float res;
+
+
+}
+
+bool	ParseFile(std::ifstream file, std::map<t_date, float>& db_map)
 {
 	std::string line;
 	
@@ -29,7 +78,7 @@ bool	ParseFile(std::ifstream file, std::map<t_date, int>& db_map)
 		std::stringstream ss(line);
 		t_date date;
 		float value;
-		char seps[3] = 0;
+		char seps[3]0;
 		ss >> date.year >> seps[0] >> date.month >> seps[1] >> date.day >> seps[2] >> value;
 		if (!checkInputs(date, seps, value))
 			continue;
@@ -50,7 +99,7 @@ int main(int ac, char *av[])
 	std::ifstream ifile(av[1]);
 	std::ifstream idb(DB);
 
-	std::map<t_date, int> ifile_mp, idb_map;
+	std::map<t_date, float> ifile_mp, idb_map;
 
 	if (!idb.is_open() || !ifile.is_open())
 	{
