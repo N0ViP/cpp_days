@@ -1,27 +1,9 @@
 #include "BitcoinExchange.hpp"
 
-bool checkDate(t_date& date)
+
+bool	checkInputs(Date& date, char[3] seps, float& value)
 {
-	char DaysOfMonths[] = {31, 28, 31, 30, 31, 30, 31,31, 30, 31, 30, 31};
-	bool isLeapYear;
-
-	isLeapYear = ((date.year % 4 == 0) && (date.year % 100 != 0)) || (date.year % 400 == 0);
-	DaysOfMonths[1] += isLeapYear;
-
-	if (date.year < 0
-		|| !(date.month >= 1 && date.month <= 12)
-		|| DaysOfMonths[date.month - 1] >= date.day)
-	{
-		std::cerr << "Error: invalid date" << std::endl;
-		return false;
-	}
-
-	return true;
-}
-
-bool	checkInputs(t_date& date, char[3] seps, float& value)
-{
-	if (!checkDate(date))
+	if (!date.checkDate())
 		return false;
 	if (seps[0] != '-' || seps[1] != '-' || seps[2] != '|')
 	{
@@ -41,17 +23,32 @@ bool	checkInputs(t_date& date, char[3] seps, float& value)
 	return true;
 }
 
+float	getValue(std::map<Date, float>& db_map, Date& date)
+{
+	std::map<Date, float>iterator right, left;
+	it = db_map.lower_bound(date);
+	if (it == db_map.end())
+		return (--it)->second;
 
-void	PrintValue(std::map<t_date, float>& db_map, t_date& date, float& value)
+	left = right - 1;
+
+	return ((left->first - date).abs() < (right->first - date).abs())? left->second : right->second;
+}
+
+
+void	PrintValue(std::map<Date, float>& db_map, Date& date, float& value)
 {
 	std::cout << date.year << '-' << date.month << '-' << date.day
 				<< " => " << value << " = ";
-	float res;
+
+	float res = getValue(db_map, date) * value;
+
+	std::cout << res << std::endl;
 
 
 }
 
-bool	ParseFile(std::ifstream file, std::map<t_date, float>& db_map)
+bool	ParseFile(std::ifstream file, std::map<Date, float>& db_map)
 {
 	std::string line;
 	
@@ -76,7 +73,7 @@ bool	ParseFile(std::ifstream file, std::map<t_date, float>& db_map)
 	while (std::getline(file, line))
 	{
 		std::stringstream ss(line);
-		t_date date;
+		Date date;
 		float value;
 		char seps[3]0;
 		ss >> date.year >> seps[0] >> date.month >> seps[1] >> date.day >> seps[2] >> value;
@@ -99,7 +96,7 @@ int main(int ac, char *av[])
 	std::ifstream ifile(av[1]);
 	std::ifstream idb(DB);
 
-	std::map<t_date, float> ifile_mp, idb_map;
+	std::map<Date, float> ifile_mp, idb_map;
 
 	if (!idb.is_open() || !ifile.is_open())
 	{
@@ -108,10 +105,7 @@ int main(int ac, char *av[])
 		return 1;
 	}
 
-	if (!ParseFile(idb_map, idb_map, DB_HEADER_ROW) || !ParseFile(ifile_mp, ifile, FILE_HEADER_ROW))
-	{
-		return 2;
-	}
+	fillDbMap(idb, idb_map);
 
 	return 0;
 }

@@ -15,11 +15,21 @@
 # define DB "data.csv"
 #endif
 
-typedef struct s_date
+struct Date
 {
 	int year;
 	int month;
 	int day;
-}	t_date;
+	
+	Date(int y, int m, int d);
+	Date(const Date& other);
+
+
+	bool	operator<(const Date& other) const;
+	Date	operator-(const Date& other) const;
+	Date	abs(void) const;
+	bool	checkDate(void) const;
+};
+
 
 
