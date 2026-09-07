@@ -1,7 +1,7 @@
 #include "BitcoinExchange.hpp"
 
 
-bool	checkInputs(Date& date, char[3] seps, float& value)
+bool	checkInputs(Date& date, char seps[3], double& value)
 {
 	if (!date.checkDate())
 		return false;
@@ -23,36 +23,36 @@ bool	checkInputs(Date& date, char[3] seps, float& value)
 	return true;
 }
 
-float	getValue(std::map<Date, float>& db_map, Date& date)
+double	getValue(std::map<Date, double>& db_map, Date& date)
 {
-	std::map<Date, float>iterator right, left;
-	it = db_map.lower_bound(date);
-	if (it == db_map.end())
-		return (--it)->second;
+	std::map<Date, double>::iterator r, l;
+	l = db_map.lower_bound(date);
+	if (l == db_map.end())
+		return (--l)->second;
 
-	left = right - 1;
+	r = l;
+	--l;
 
-	return ((left->first - date).abs() < (right->first - date).abs())? left->second : right->second;
+	return ((l->first - date).abs() < (r->first - date).abs())? l->second : r->second;
 }
 
 
-void	PrintValue(std::map<Date, float>& db_map, Date& date, float& value)
+void	PrintValue(std::map<Date, double>& db_map, Date& date, double& value)
 {
-	std::cout << date.year << '-' << date.month << '-' << date.day
-				<< " => " << value << " = ";
+	std::cout << date << " => " << value << " = ";
 
-	float res = getValue(db_map, date) * value;
+	double res = getValue(db_map, date) * value;
 
 	std::cout << res << std::endl;
 
 
 }
 
-bool	ParseFile(std::ifstream file, std::map<Date, float>& db_map)
+bool	ParseFile(std::ifstream& file, std::map<Date, double>& db_map)
 {
 	std::string line;
 	
-	if (std::getline(file, line))
+	if (!std::getline(file, line))
 	{
 		std::cerr << "Error: getline can't read the file" << std::endl;
 		return false;
@@ -74,8 +74,8 @@ bool	ParseFile(std::ifstream file, std::map<Date, float>& db_map)
 	{
 		std::stringstream ss(line);
 		Date date;
-		float value;
-		char seps[3]0;
+		double value;
+		char seps[3];
 		ss >> date.year >> seps[0] >> date.month >> seps[1] >> date.day >> seps[2] >> value;
 		if (!checkInputs(date, seps, value))
 			continue;
@@ -85,11 +85,11 @@ bool	ParseFile(std::ifstream file, std::map<Date, float>& db_map)
 	return true;
 }
 
-bool	fillDbMap(std::ifstream& db, std::map<Date, float>& db_map)
+bool	fillDbMap(std::ifstream& db, std::map<Date, double>& db_map)
 {
 	std::string line;
 
-	if (std::getline(db, line))
+	if (!std::getline(db, line))
 	{
 		std::cerr << "Error: getline can't read the database" << std::endl;
 		return false;
@@ -100,10 +100,10 @@ bool	fillDbMap(std::ifstream& db, std::map<Date, float>& db_map)
 		std::stringstream ss(line);
 		char	sep;
 		Date	date;
-		float	value;
+		double	value;
 
 		ss >> date.year >> sep >> date.month >> sep >> date.day >> sep >> value;
-		db_map.insert(std::pair<Date, float>(date, value));
+		db_map.insert(std::pair<Date, double>(date, value));
 	}
 
 	return true;
@@ -120,8 +120,6 @@ int main(int ac, char *av[])
 	std::ifstream ifile(av[1]);
 	std::ifstream idb(DB);
 
-	std::map<Date, float> ifile_mp, idb_map;
-
 	if (!idb.is_open() || !ifile.is_open())
 	{
 		idb.close();
@@ -129,8 +127,13 @@ int main(int ac, char *av[])
 		return 1;
 	}
 
+	std::map<Date, double> idb_map;
 	if (!fillDbMap(idb, idb_map))
 		return 1;
+	
+	idb.close();
+
+	ParseFile(ifile, idb_map);
 
 	return 0;
 }

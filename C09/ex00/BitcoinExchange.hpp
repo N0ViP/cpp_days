@@ -2,6 +2,11 @@
 
 #include <iostream>
 #include <map>
+#include <sstream>
+#include <climits>
+#include <fstream>
+#include <iomanip>
+
 
 #ifndef FILE_HEADER_ROW
 #define FILE_HEADER_ROW "date | value"
@@ -17,6 +22,7 @@ struct Date
 	int month;
 	int day;
 	
+	Date();
 	Date(int y, int m, int d);
 	Date(const Date& other);
 
@@ -27,5 +33,4 @@ struct Date
 	bool	checkDate(void) const;
 };
 
-
-
+std::ostream& operator<<(std::ostream&, const Date&);

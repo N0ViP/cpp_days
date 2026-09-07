@@ -1,5 +1,6 @@
 #include "BitcoinExchange.hpp"
 
+Date::Date(void): year(0), month(0), day(0) {}
 Date::Date(int y, int m, int d): year(y), month(m), day(d) {}
 Date::Date(const Date& other): year(other.year), month(other.month), day(other.day) {}
 bool	Date::operator<(const Date& other) const
@@ -41,11 +42,22 @@ bool Date::checkDate(void) const
 	isLeapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 	DaysOfMonths[1] += isLeapYear;
 
-	if (year < 0 || !(month >= 1 && month <= 12) || DaysOfMonths[month - 1] >= day)
+	if (year < 0 || !(month >= 1 && month <= 12) || DaysOfMonths[month - 1] <= day)
 	{
 		std::cerr << "Error: invalid date" << std::endl;
 		return false;
 	}
 
 	return true;
+}
+
+std::ostream& operator<<(std::ostream& cout, const Date& date)
+{
+	cout << std::setfill('0');
+	cout << std::setw(4) << date.year << '-' 
+		<< std::setw(2) << date.month << '-' 
+		<< std::setw(2) << date.day;
+	cout << std::setfill(' ');
+
+	return cout;
 }
