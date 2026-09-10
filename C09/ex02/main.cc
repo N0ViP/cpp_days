@@ -5,33 +5,22 @@
 template<class U>
 void insertElement(U& container, int element)
 {
-	typename U::size_type	mid = container.size() / 2,
-			 				l = 0,
-							r = container.size() - 1;
+	typename U::size_type	mid, l = 0, r = container.size();
 
-	while (mid < r)
+	while (l < r)
 	{
-		if (element < container[mid])
-		{
+		mid = l + (r - l) / 2;
+
+		if (element > container[mid])
 			l = mid + 1;
-			mid = r;
-		}
-		else if (element > container[mid])
-		{
-			r = mid - 1;
-			mid = l;
-		}
-		if (element == container[mid])
-		{
-			container.insert(mid, element);
-			return ;
-		}
+		else
+			r = mid;
 	}
 
-	container.insert(mid, element);
+	container.insert(container.begin() + l , element);
 }
 
-/*
+
 template<class T, class U>
 void	sortSecondHalf(T& container, U& res)
 {
@@ -42,7 +31,7 @@ void	sortSecondHalf(T& container, U& res)
 		insertElement(res, it->second);
 	}
 }
-*/
+
 
 template<class T, class U>
 void	sortFirstHalf(T& container, U& res)
@@ -112,13 +101,12 @@ int main(int ac, char* av[])
 	//sort
 	std::vector<int> res;
 	::sortFirstHalf<std::vector<std::pair<int, int> >, std::vector<int> >(container, res);
-	//::sortSecondHalf<std::vector<std::pair<int, int> >, std::vector<int> >(container, res);
+	::sortSecondHalf<std::vector<std::pair<int, int> >, std::vector<int> >(container, res);
 
 	//print
-	it = container.begin();
-	for (; it != container.end(); it++)
+	for (std::vector<int>::size_type i = 0; i < res.size(); i++)
 	{
-		std::cout << (*it).first << " ";
+		std::cout << res[i] << " ";
 	}
 	std::cout << std::endl;
 
