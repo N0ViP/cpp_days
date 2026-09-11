@@ -45,12 +45,15 @@ int main(int ac, char* av[])
 	//first container
 	clock_t	start1 = clock();
 	firstPair = ::sort(container1, ss, n);
-	std::vector<int> res1;
-	::sortFirstHalf(container1, res1);
-	::sortSecondHalf(container1, res1);
+	std::vector<std::pair<int, int> > res1;
+	if (!container1.empty())
+	{
+		::sortFirstHalf(container1, res1);
+		::sortSecondHalf(res1);
+	}
 	if (!firstPair)
 	{
-		insertElement<std::vector<int> >(res1, n, res1.size());
+		insertElement(res1, std::make_pair(n, 0), res1.size());
 	}
 	clock_t total1 = clock() - start1;
 
@@ -58,12 +61,15 @@ int main(int ac, char* av[])
 	//second container
 	clock_t start2 = clock();
 	firstPair = ::sort(container2, ss1, n);
-	std::deque<int> res2;
-	::sortFirstHalf(container2, res2);
-	::sortSecondHalf(container2, res2);
+	std::deque<std::pair<int, int> > res2;
+	if (!container2.empty())
+	{
+		::sortFirstHalf(container2, res2);
+		::sortSecondHalf(res2);
+	}
 	if (!firstPair)
 	{
-		insertElement<std::deque<int> >(res2, n, res2.size());
+		insertElement(res2, std::make_pair(n, 0), res2.size());
 	}
 	clock_t total2 = clock() - start2;
 
@@ -72,7 +78,7 @@ int main(int ac, char* av[])
 	std::vector<int>::size_type i = 0;
 	for (; i < 5 && i < res1.size(); i++)
 	{
-		std::cout << res1[i] << " ";
+		std::cout << res1[i].first << " ";
 	}
 	if (5 < res1.size())
 		std::cout << "[...]";

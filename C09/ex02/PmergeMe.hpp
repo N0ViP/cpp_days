@@ -8,9 +8,10 @@
 
 
 std::vector<std::size_t> fordJohnsonOrder(std::size_t size);
+bool compare(const std::pair<int, int>& a, const std::pair<int, int>& b);
 
 template<class U>
-void insertElement(U& container, int element, typename U::size_type r)
+void insertElement(U& container, std::pair<int, int> element, typename U::size_type r)
 {
 	typename U::size_type	mid, l = 0;
 
@@ -18,7 +19,7 @@ void insertElement(U& container, int element, typename U::size_type r)
 	{
 		mid = l + (r - l) / 2;
 
-		if (element > container[mid])
+		if (compare(container[mid], element))
 			l = mid + 1;
 		else
 			r = mid;
@@ -27,16 +28,16 @@ void insertElement(U& container, int element, typename U::size_type r)
 	container.insert(container.begin() + l , element);
 }
 
-template<class T, class U>
-void	sortSecondHalf(T& container, U& res)
+template<class U>
+void	sortSecondHalf(U& res)
 {
-	std::vector<std::size_t> order = fordJohnsonOrder(container.size());
-	insertElement(res, container[0].second, res.size());
-
-
+	U	pending = res;
+	std::vector<std::size_t> order = fordJohnsonOrder(pending.size());
+	res.insert(res.begin(), std::make_pair(pending[0].second, 0));
+	
 	for (std::size_t i = 0; i < order.size(); i++)
 	{
-		insertElement(res, container[order[i]].second, order[i] + 1);
+		insertElement(res, std::make_pair(pending[order[i]].second, 0), order[i] + (i + 1));
 	}
 }
 
@@ -45,12 +46,11 @@ template<class T, class U>
 void	sortFirstHalf(T& container, U& res)
 {
 	std::vector<std::size_t> order = fordJohnsonOrder(container.size());
-
-	res.push_back(container[0].first);
+	res.insert(res.begin(), container[0]);
 
 	for (std::size_t i = 0; i < order.size(); i++)
 	{
-		insertElement(res, container[order[i]].first, res.size());
+		insertElement(res, container[order[i]], res.size());
 	}
 }
 

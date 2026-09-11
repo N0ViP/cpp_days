@@ -13,9 +13,14 @@ std::vector<std::size_t> fordJohnsonOrder(std::size_t size)
         while (index > previous)
             order.push_back(--index);
             
-        std::size_t next = current + 2 * previous; // Fixed Jacobsthal calculation
+        std::size_t next = current + 2 * previous;
         previous = current;
         current = next;
     }
     return order;
+}
+
+bool compare(const std::pair<int, int>& a, const std::pair<int, int>& b)
+{
+	return a.first < b.first;
 }
