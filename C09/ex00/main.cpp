@@ -124,6 +124,7 @@ int main(int ac, char *av[])
 	{
 		idb.close();
 		ifile.close();
+		std::cerr<< "Error" << std::endl;
 		return 1;
 	}
 

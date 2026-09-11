@@ -3,35 +3,30 @@
 
 int main(int ac, char* av[])
 {
-	if (ac != 2)
-	{
-		std::cerr << "Error" << std::endl;
-		return 1;
-	}
-
 	std::vector< std::pair<int,int> > container1;
 	std::deque< std::pair<int,int> > container2;
-	std::stringstream ss(av[1]), ss1(av[1]), ss2(av[1]);
 	std::vector<int> vec;
 	int		n;
-	bool	firstPair;
+	bool	isOdd;
 
 
 	//print inputs
-	while (ss2 >> n)
+	for (int i = 1; i < ac; i++)
 	{
-		if (n < 0)
+		std::stringstream ss(av[i]);
+		if (!(ss >> n) || n < 0 || !ss.eof())
 		{
 			std::cerr << "Error" << std::endl;
 			return 1;
 		}
 		vec.push_back(n);
 	}
-	if (vec.empty() || !ss2.eof())
+	if (vec.empty())
 	{
 		std::cerr << "Error" << std::endl;
 		return 1;
 	}
+	
 	std::vector<int>::size_type j = 0;
 	std::cout << "Before: ";
 	for (;j < vec.size(); j++)
@@ -42,14 +37,14 @@ int main(int ac, char* av[])
 
 	//first container
 	clock_t	start1 = clock();
-	firstPair = ::sort(container1, ss, n);
+	isOdd = ::sort(container1, av + 1, ac - 1, n);
 	std::vector<std::pair<int, int> > res1;
 	if (!container1.empty())
 	{
 		::sortFirstHalf(container1, res1);
 		::sortSecondHalf(res1);
 	}
-	if (!firstPair)
+	if (!isOdd)
 	{
 		insertElement(res1, std::make_pair(n, 0), res1.size());
 	}
@@ -58,14 +53,14 @@ int main(int ac, char* av[])
 
 	//second container
 	clock_t start2 = clock();
-	firstPair = ::sort(container2, ss1, n);
+	isOdd = ::sort(container2, av + 1, ac - 1, n);
 	std::deque<std::pair<int, int> > res2;
 	if (!container2.empty())
 	{
 		::sortFirstHalf(container2, res2);
 		::sortSecondHalf(res2);
 	}
-	if (!firstPair)
+	if (!isOdd)
 	{
 		insertElement(res2, std::make_pair(n, 0), res2.size());
 	}

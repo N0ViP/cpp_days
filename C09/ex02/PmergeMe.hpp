@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <cstdlib>
 #include <sstream>
 #include <vector>
 #include <deque>
@@ -55,14 +56,15 @@ void	sortFirstHalf(T& container, U& res)
 }
 
 template <class T>
-bool	sort(T& container, std::stringstream& ss, int& n)
+bool	sort(T& container, char* av[], int ac, int& n)
 {
 	std::pair<int, int> tmp;
-	bool	firstPair = true;
+	bool isOdd = true;
 
-	while (ss >> n)
+	for(int i = 0; i < ac; i++)
 	{
-		if (firstPair == true)
+		n = std::atoi(av[i]);
+		if (isOdd == true)
 		{
 			tmp.first = n;
 		}
@@ -80,7 +82,7 @@ bool	sort(T& container, std::stringstream& ss, int& n)
 			container.push_back(tmp);
 		}
 
-		firstPair = !firstPair;
+		isOdd = !isOdd;
 	}
-	return firstPair;
+	return isOdd;
 }
