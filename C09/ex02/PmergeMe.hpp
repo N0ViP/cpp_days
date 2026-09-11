@@ -37,7 +37,7 @@ void	sortSecondHalf(U& res)
 	
 	for (std::size_t i = 0; i < order.size(); i++)
 	{
-		insertElement(res, std::make_pair(pending[order[i]].second, 0), order[i] + i + 1);
+		insertElement(res, std::make_pair(pending[order[i]].second, 0), (order[i] + i) + 1);
 	}
 }
 
