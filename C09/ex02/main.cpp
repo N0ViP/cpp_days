@@ -27,7 +27,7 @@ int main(int ac, char* av[])
 		}
 		vec.push_back(n);
 	}
-	if (vec.empty())
+	if (vec.empty() || ss2.fail())
 	{
 		std::cerr << "Error" << std::endl;
 		return 1;
