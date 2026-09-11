@@ -34,12 +34,10 @@ int main(int ac, char* av[])
 	}
 	std::vector<int>::size_type j = 0;
 	std::cout << "Before: ";
-	for (; j < 5 && j < vec.size(); j++)
+	for (;j < vec.size(); j++)
 	{
 		std::cout << vec[j] << " ";
 	}
-	if (5 < vec.size())
-		std::cout << "[...]";
 	std::cout << std::endl;
 
 	//first container
@@ -76,12 +74,10 @@ int main(int ac, char* av[])
 	//print result
 	std::cout << "After: ";
 	std::vector<int>::size_type i = 0;
-	for (; i < 5 && i < res1.size(); i++)
+	for (; i < res1.size(); i++)
 	{
 		std::cout << res1[i].first << " ";
 	}
-	if (5 < res1.size())
-		std::cout << "[...]";
 	std::cout << std::endl;
 
 	std::cout << "Time to process a range of " << vec.size() 
