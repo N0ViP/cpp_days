@@ -46,12 +46,11 @@ void	sortSecondHalf(U& res)
 template<class T, class U>
 void	sortFirstHalf(T& container, U& res)
 {
-	std::vector<std::size_t> order = fordJohnsonOrder(container.size());
 	res.insert(res.begin(), container[0]);
 
-	for (std::size_t i = 0; i < order.size(); i++)
+	for (std::size_t i = 1; i < container.size(); i++)
 	{
-		insertElement(res, container[order[i]], res.size());
+		insertElement(res, container[i], res.size());
 	}
 }
 
@@ -86,3 +85,22 @@ bool	sort(T& container, char* av[], int ac, int& n)
 	}
 	return isOdd;
 }
+
+template <class T>
+void    implement(T& container, T& res, char **av, int ac)
+{
+        int n;
+        bool isOdd;
+
+        isOdd = ::sort(container, av, ac, n);
+        if (!container.empty())
+        {
+                ::sortFirstHalf(container, res);
+                ::sortSecondHalf(res);
+        }
+        if (!isOdd)
+        {
+                insertElement(res, std::make_pair(n, 0), res.size());
+        }
+}
+

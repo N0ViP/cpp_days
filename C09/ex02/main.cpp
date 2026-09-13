@@ -1,14 +1,11 @@
 #include "PmergeMe.hpp"
 
-
 int main(int ac, char* av[])
 {
-	std::vector< std::pair<int,int> > container1;
-	std::deque< std::pair<int,int> > container2;
+	std::vector< std::pair<int,int> > container1, res1;
+	std::deque< std::pair<int,int> > container2, res2;
 	std::vector<int> vec;
 	int		n;
-	bool	isOdd;
-
 
 	//print inputs
 	for (int i = 1; i < ac; i++)
@@ -26,7 +23,7 @@ int main(int ac, char* av[])
 		std::cerr << "Error" << std::endl;
 		return 1;
 	}
-	
+
 	std::vector<int>::size_type j = 0;
 	std::cout << "Before: ";
 	for (;j < vec.size(); j++)
@@ -37,33 +34,13 @@ int main(int ac, char* av[])
 
 	//first container
 	clock_t	start1 = clock();
-	isOdd = ::sort(container1, av + 1, ac - 1, n);
-	std::vector<std::pair<int, int> > res1;
-	if (!container1.empty())
-	{
-		::sortFirstHalf(container1, res1);
-		::sortSecondHalf(res1);
-	}
-	if (!isOdd)
-	{
-		insertElement(res1, std::make_pair(n, 0), res1.size());
-	}
+	implement(container1, res1, av + 1, ac -1);
 	clock_t total1 = clock() - start1;
 
 
 	//second container
 	clock_t start2 = clock();
-	isOdd = ::sort(container2, av + 1, ac - 1, n);
-	std::deque<std::pair<int, int> > res2;
-	if (!container2.empty())
-	{
-		::sortFirstHalf(container2, res2);
-		::sortSecondHalf(res2);
-	}
-	if (!isOdd)
-	{
-		insertElement(res2, std::make_pair(n, 0), res2.size());
-	}
+	implement(container2, res2, av + 1, ac - 1);
 	clock_t total2 = clock() - start2;
 
 	//print result
